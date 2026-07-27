@@ -1,7 +1,14 @@
-from django.contrib import admin
-from django.urls import path, include
-from .views import BookListAPIView
+from django.urls import path   
+from .views import (
+    CategoryListAPIView,
+    ProductListAPIView,
+    ProductDetailAPIView,
+)
 
 urlpatterns = [
-    path('books/', BookListAPIView.as_view(), name='api_books')
+    path('categories/', CategoryListAPIView.as_view(), name='api_categories'),
+    path('products/', ProductListAPIView.as_view(), name='api_products'),
+    path('products/<int:pk>/', ProductDetailAPIView.as_view(), name='api_product_detail'),
 ]
+
+

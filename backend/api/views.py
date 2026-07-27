@@ -1,15 +1,18 @@
-from django.shortcuts import render, redirect
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView, APIView
-from .serializers import BookModelSerializer
-from .models import Book
+from rest_framework import generics
+from .serializers import CategorySerializer, ProductSerializer
+from .models import Category, Product
 
-class BookListAPIView(APIView):
-    def get(self, request):
-        books = Book.objects.all()
-        serializer = BookModelSerializer(books, many=True)
-        return Response(serializer.data)
 
-    def post(self, request):
-        pass
+class CategoryListAPIView(generics.ListAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+
+class ProductListAPIView(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+class ProductDetailAPIView(generics.RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer

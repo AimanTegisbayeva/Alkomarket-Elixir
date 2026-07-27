@@ -1,26 +1,17 @@
-import { useState } from 'react'
-import './App.css'
-import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
-import Home from "./pages/Home/home.tsx";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
+import ProductsPage from "./pages/ProductsPage";
 
-function App() {
-
+export default function App() {
   return (
-    <>
-      <BrowserRouter>
-      <nav>
-        <Link to="/">Главная</Link> |{" "}
-        
-      </nav>
-
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        
+        <Route path="/" element={<Navigate to="/products" replace />} />
+        <Route path="/products" element={<ProductsPage />} />        
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </BrowserRouter>
-
-    </>
-  )
+  );
 }
-
-export default App;
