@@ -5,8 +5,11 @@ import axios from "axios";
 import { saveTokens } from "../api";
 
 const API_URL = "http://localhost:8000/api/auth/login/";
+type LoginPageProps = {
+  onLogin: () => void;
+};
 
-export default function LoginPage() {
+export default function LoginPage({ onLogin }: LoginPageProps) {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +22,8 @@ export default function LoginPage() {
     try {
       const response = await axios.post(API_URL, { username, password });
       saveTokens(response.data.access, response.data.refresh);
-      navigate("/notes");
+      onLogin();
+      navigate("/products");
     } catch {
       setError("Неверный логин или пароль");
     }

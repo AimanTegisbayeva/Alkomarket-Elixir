@@ -2,12 +2,12 @@ import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { saveTokens } from "../api";
 
 const API_URL = "http://localhost:8000/api/auth/register/";
 
 export default function RegisterPage() {
   const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,23 +18,41 @@ export default function RegisterPage() {
     event.preventDefault();
     setError("");
 
+    if (password !== passwordConfirm) {
+      setError("Пароли не совпадают.");
+      return;
+    }
+
     try {
-      const response = await axios.post(API_URL, {
+      await axios.post(API_URL, {
         username,
         email,
         password,
         password_confirm: passwordConfirm,
       });
 
-      saveTokens(response.data.access, response.data.refresh);
-      navigate("/notes");
-    } catch {
-      setError("Не удалось зарегистрироваться. Проверь данные.");
+      navigate("/login");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log("Ошибка регистрации:", error.response?.data);
+
+        setError(
+          JSON.stringify(error.response?.data)
+        );
+      } else {
+        setError("Произошла ошибка.");
+      }
     }
   }
 
   return (
-    <main style={{ maxWidth: 420, margin: "40px auto", fontFamily: "sans-serif" }}>
+    <main
+      style={{
+        maxWidth: 420,
+        margin: "40px auto",
+        fontFamily: "sans-serif",
+      }}
+    >
       <h1>Регистрация</h1>
 
       <form onSubmit={handleSubmit}>
@@ -47,14 +65,17 @@ export default function RegisterPage() {
             required
           />
         </div>
+
         <div>
           <input
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </div>
+
         <div>
           <input
             type="password"
@@ -64,6 +85,7 @@ export default function RegisterPage() {
             required
           />
         </div>
+
         <div>
           <input
             type="password"
@@ -73,13 +95,21 @@ export default function RegisterPage() {
             required
           />
         </div>
-        <button type="submit">Зарегистрироваться</button>
+
+        <button type="submit">
+          Зарегистрироваться
+        </button>
       </form>
 
-      {error && <p style={{ color: "crimson" }}>{error}</p>}
+      {error && (
+        <p style={{ color: "crimson" }}>
+          {error}
+        </p>
+      )}
 
       <p>
-        Уже есть аккаунт? <Link to="/login">Войти</Link>
+        Уже есть аккаунт?{" "}
+        <Link to="/login">Войти</Link>
       </p>
     </main>
   );
