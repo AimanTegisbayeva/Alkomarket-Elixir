@@ -75,7 +75,15 @@ class CartItemDetailAPIView(
             cart__user=self.request.user
         )
 
+class OrderListAPIView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        return Order.objects.filter(
+            user=self.request.user
+        ).prefetch_related('items')
+    
 class OrderCreateAPIView(generics.CreateAPIView):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]

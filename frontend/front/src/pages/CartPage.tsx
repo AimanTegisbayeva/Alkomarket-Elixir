@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
     getCart,
     removeFromCart,
@@ -7,6 +8,7 @@ import {
 import type { Cart } from "../types/types";
 
 export default function CartPage() {
+    const navigate = useNavigate();
     const [cart, setCart] = useState<Cart | null>(null);
     const [loading, setLoading] = useState(true);
 
@@ -140,6 +142,11 @@ export default function CartPage() {
             <h2>
                 Итого: {cart.total} ₸
             </h2>
+            <button
+                onClick={() => navigate("/order")}
+            >
+                Оформить заказ
+            </button>
         </div>
     );
 }

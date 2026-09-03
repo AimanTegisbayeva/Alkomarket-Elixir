@@ -13,6 +13,12 @@ import LoginPage from "./pages/LoginPage";
 import ProductsPage from "./pages/ProductsPage";
 import CartPage from "./pages/CartPage";
 import ProfilePage from "./pages/ProfilePage";
+import OrderPage from "./pages/OrderPage";
+import OrderSuccessPage from "./pages/OrderSuccessPage";
+import MyOrdersPage from "./pages/MyOrdersPage";
+import CategoriesPage from "./pages/CategoriesPage";
+import CategoryProductsPage from "./pages/CategoryProductsPage";
+
 
 import { isAuthenticated, clearTokens } from "./api";
 
@@ -47,6 +53,10 @@ function Header({
                         Каталог
                     </NavLink>
 
+                    <NavLink to="/categories">
+                        Категории
+                    </NavLink>
+
                     {!authenticated && (
                         <>
                             <NavLink to="/register">
@@ -63,6 +73,10 @@ function Header({
                         <>
                             <NavLink to="/profile">
                                 👤 Профиль
+                            </NavLink>
+
+                            <NavLink to="/orders">
+                                📦 Мои заказы
                             </NavLink>
 
                             <button onClick={handleLogout}>
@@ -123,13 +137,35 @@ export default function App() {
                     />
 
                     <Route
+                        path="/order"
+                        element={<OrderPage />}
+                    />
+                    <Route
+                        path="/order-success"
+                        element={<OrderSuccessPage />}
+                    />
+
+                    <Route
                         path="/cart"
                         element={<CartPage />}
                     />
-                    
+
                     <Route
                         path="/profile"
                         element={<ProfilePage />}
+                    />
+                    <Route
+                        path="/orders"
+                        element={<MyOrdersPage />} />
+
+                    <Route
+                        path="/categories"
+                        element={<CategoriesPage />}
+                    />
+
+                    <Route
+                        path="/category/:id"
+                        element={<CategoryProductsPage />}
                     />
 
                 </Routes>
