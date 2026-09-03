@@ -1,45 +1,56 @@
 import { useEffect, useState } from "react";
+
 import { getProducts } from "../services/products";
 import { addToCart } from "../services/cart";
+
 import type { Product } from "../types/types";
+
 import "./ProductsPage.css";
 
 export default function ProductsPage() {
     const [products, setProducts] = useState<Product[]>([]);
-    const [error, setError] = useState("");
 
     useEffect(() => {
         const loadProducts = async () => {
             try {
                 const data = await getProducts();
-
-                console.log("Товары из API:", data);
-
                 setProducts(data);
             } catch (error) {
-                console.error("Ошибка загрузки товаров:", error);
-                setError("Не удалось загрузить товары.");
+                console.error(
+                    "Ошибка загрузки товаров:",
+                    error
+                );
             }
         };
 
         loadProducts();
     }, []);
 
-    const handleAddToCart = async (productId: number) => {
-        try {
-            await addToCart(productId);
-            alert("Товар добавлен в корзину");
-        } catch (error) {
-            console.error("Ошибка добавления в корзину:", error);
-            alert("Не удалось добавить товар в корзину");
+    const getCategoryIcon = (category: number) => {
+        switch (category) {
+            case 1:
+                return "🥃"; // Виски
+
+            case 2:
+                return "🍷"; // Вино
+
+            case 3:
+                return "🍺"; // Пиво
+
+            case 4:
+                return "🥃"; // Ром
+
+            case 5:
+                return "🌵"; // Текила
+
+            default:
+                return "🍷";
         }
     };
 
     return (
         <div className="products-page">
             <h1>Каталог товаров</h1>
-
-            {error && <p>{error}</p>}
 
             <div className="products-grid">
                 {products.map((product) => (
@@ -48,29 +59,45 @@ export default function ProductsPage() {
                         key={product.id}
                     >
                         <div className="product-image">
-                            🍷
+                            {product.image ? (
+                                <img
+                                    src={product.image}
+                                    alt={product.title}
+                                />
+                            ) : (
+                                getCategoryIcon(product.category)
+                            )}
                         </div>
 
-                        <h2>{product.title}</h2>
+                        <h2>
+                            {product.title}
+                        </h2>
 
-                        <p>{product.description}</p>
+                        <p>
+                            {product.description}
+                        </p>
 
-                        <h3>{product.price} ₸</h3>
+                        <h3>
+                            {product.price} ₸
+                        </h3>
 
                         <p>
                             В наличии: {product.stock}
                         </p>
 
-                        <button
-                            onClick={() =>
-                                handleAddToCart(product.id)
-                            }
-                            disabled={product.stock === 0}
-                        >
-                            {product.stock === 0
-                                ? "Нет в наличии"
-                                : "Добавить в корзину"}
-                        </button>
+                        {product.stock > 0 ? (
+                            <button
+                                onClick={() =>
+                                    addToCart(product.id)
+                                }
+                            >
+                                Добавить в корзину
+                            </button>
+                        ) : (
+                            <button disabled>
+                                Нет в наличии
+                            </button>
+                        )}
                     </div>
                 ))}
             </div>
