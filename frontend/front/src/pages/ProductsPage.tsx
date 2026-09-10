@@ -76,7 +76,11 @@ export default function ProductsPage() {
                         <p>
                             {product.description}
                         </p>
-
+                        {product.volume && (
+                        <p>
+                          Объём: {product.volume}
+                         </p>
+             )}
                         <h3>
                             {product.price} ₸
                         </h3>

@@ -4,6 +4,11 @@ import {
     getCategories,
     type Category,
 } from "../services/categories";
+import wineImage from "../images/wine.jpg";
+import whiskyImage from "../images/whisky.jpg";
+import beerImage from "../images/beer.jpg";
+import rumImage from "../images/rum.jpg";
+import tequilaImage from "../images/tequila.jpg";
 import "./CategoriesPage.css";
 
 export default function CategoriesPage() {
@@ -51,33 +56,62 @@ export default function CategoriesPage() {
         );
     }
 
-   return (
-    <main className="categories-page">
-        <h1>Категории алкоголя</h1>
+    return (
+        <main className="categories-page">
+            <h1>Категории алкоголя</h1>
 
-        <div className="categories-grid">
-            {categories.map((category) => (
-                <Link
-                    key={category.id}
-                    to={`/category/${category.id}`}
-                    className="category-card"
-                >
-                    <div className="category-icon">
-                        {category.name === "Виски" && "🥃"}
-                        {category.name === "Вино" && "🍷"}
-                        {category.name === "Пиво" && "🍺"}
-                        {category.name === "Ром" && "🥃"}
-                        {category.name === "Текила" && "🌵"}
-                    </div>
+            <div className="categories-grid">
+                {categories.map((category) => (
+                    <Link
+                        key={category.id}
+                        to={`/category/${category.id}`}
+                        className="category-card"
+                    >
+                        <div className="category-icon">
+                            {category.name === "Виски" && (
+                                <img
+                                    src={whiskyImage}
+                                    alt="Виски"
+                               />
+                            )}
 
-                    <h2>{category.name}</h2>
+                            {category.name === "Вино" && (
+                                <img
+                                    src={wineImage}
+                                    alt="Вино"
+                                />
+                            )}
 
-                    <span className="category-link">
-                        Смотреть товары →
-                    </span>
-                </Link>
-            ))}
-        </div>
-    </main>
-);
+                            {category.name === "Пиво" && (
+                                <img
+                                    src={beerImage}
+                                    alt="Пиво"
+                                />
+                            )}
+
+                            {category.name === "Ром" && (
+                                <img
+                                    src={rumImage}
+                                    alt="Ром"
+                                />
+                            )}
+
+                            {category.name === "Текила" && (
+                                <img
+                                    src={tequilaImage}
+                                    alt="Текила"
+                                />
+                            )}
+                        </div>
+
+                        <h2>{category.name}</h2>
+
+                        <span className="category-link">
+                            Смотреть товары →
+                        </span>
+                    </Link>
+                ))}
+            </div>
+        </main>
+    );
 }

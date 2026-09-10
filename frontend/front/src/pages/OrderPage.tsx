@@ -9,6 +9,8 @@ export default function OrderPage() {
 
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
+    const [paymentMethod, setPaymentMethod] =
+        useState<"cash" | "card">("cash");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -27,19 +29,26 @@ export default function OrderPage() {
         setLoading(true);
 
         try {
-            await createOrder({
+            const order = await createOrder({
                 address: address.trim(),
                 phone: phone.trim(),
+                payment_method: paymentMethod,
             });
 
-            navigate("/order-success");
+            if (paymentMethod === "card") {
+                navigate(`/payment/${order.id}`);
+            } else {
+                navigate("/order-success");
+            }
         } catch (error) {
             console.error(
                 "Ошибка оформления заказа:",
                 error
             );
 
-            setError("Не удалось оформить заказ. Попробуйте ещё раз.");
+            setError(
+                "Не удалось оформить заказ. Попробуйте ещё раз."
+            );
         } finally {
             setLoading(false);
         }
@@ -50,12 +59,12 @@ export default function OrderPage() {
             className="order-page"
             style={{
                 backgroundImage: `
-            linear-gradient(
-                rgba(0, 0, 0, 0.55),
-                rgba(0, 0, 0, 0.55)
-            ),
-            url(${backgroundImage})
-        `,
+                    linear-gradient(
+                        rgba(0, 0, 0, 0.55),
+                        rgba(0, 0, 0, 0.55)
+                    ),
+                    url(${backgroundImage})
+                `,
             }}
         >
             <div className="order-container">
@@ -124,6 +133,64 @@ export default function OrderPage() {
                                     placeholder="+7 700 000 00 00"
                                     required
                                 />
+                            </div>
+
+                            <div className="form-group">
+                                <label>
+                                    💳 Способ оплаты
+                                </label>
+
+                                <div className="payment-options">
+
+                                    <label className="payment-option">
+                                        <input
+                                            type="radio"
+                                            name="payment_method"
+                                            value="cash"
+                                            checked={paymentMethod === "cash"}
+                                            onChange={() =>
+                                                setPaymentMethod("cash")
+                                            }
+                                        />
+
+                                        <span className="payment-icon">
+                                            💵
+                                        </span>
+
+                                        <span>
+                                            <strong>Наличными</strong>
+                                            <small>
+                                                Оплата при получении
+                                            </small>
+                                        </span>
+                                    </label>
+
+                                    <label className="payment-option">
+                                        <input
+                                            type="radio"
+                                            name="payment_method"
+                                            value="card"
+                                            checked={paymentMethod === "card"}
+                                            onChange={() =>
+                                                setPaymentMethod("card")
+                                            }
+                                        />
+
+                                        <span className="payment-icon">
+                                            💳
+                                        </span>
+
+                                        <span>
+                                            <strong>
+                                                Банковской картой
+                                            </strong>
+                                            <small>
+                                                Оплата онлайн
+                                            </small>
+                                        </span>
+                                    </label>
+
+                                </div>
                             </div>
 
                             <div className="order-note">

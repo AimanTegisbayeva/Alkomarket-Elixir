@@ -1,76 +1,134 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    margin: 0;
+    min-height: 100%;
+}
+
+body {
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+    background: #f3f3f5;
+    color: #17181d;
+}
+
+/* =========================
+   HEADER
+========================= */
+
 .header {
     width: 100%;
     background: #111217;
     border-bottom: 1px solid #333;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
 .header-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 18px 20px;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 30px;
 }
 
 .logo {
     color: white;
     text-decoration: none;
     font-size: 28px;
-    font-weight: bold;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.logo:hover {
+    color: #f0f0f0;
 }
 
 .nav {
     display: flex;
-    gap: 30px;
-}
-
-.nav a {
-    color: #ccc;
-    text-decoration: none;
-    font-size: 16px;
-}
-
-.nav a:hover {
-    color: white;
-}
-
-.nav a.active {
-    color: white;
-    font-weight: bold;
-}
-.nav {
-    display: flex;
-    gap: 30px;
     align-items: center;
+    gap: 24px;
 }
 
 .nav a {
     display: inline-block;
-    color: #ccc;
+    color: #cfcfd3;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 15px;
+    font-weight: 500;
     cursor: pointer;
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .nav a:hover {
     color: white;
+    transform: translateY(-1px);
 }
 
 .nav a.active {
     color: white;
-    font-weight: bold;
+    font-weight: 700;
 }
 
 .nav button {
     border: none;
     background: transparent;
-    color: #ccc;
-    font-size: 16px;
+    color: #cfcfd3;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
     cursor: pointer;
     padding: 0;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .nav button:hover {
     color: white;
+    transform: translateY(-1px);
 }
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 900px) {
+    .header-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+}
+
+@media (max-width: 600px) {
+    .logo {
+        font-size: 24px;
+    }
+
+    .nav {
+        gap: 12px;
+    }
+
+    .nav a,
+    .nav button {
+        font-size: 14px;
+    }
+}
+
