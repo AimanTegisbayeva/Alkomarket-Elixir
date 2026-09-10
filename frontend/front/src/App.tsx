@@ -18,6 +18,7 @@ import OrderSuccessPage from "./pages/OrderSuccessPage";
 import MyOrdersPage from "./pages/MyOrdersPage";
 import CategoriesPage from "./pages/CategoriesPage";
 import CategoryProductsPage from "./pages/CategoryProductsPage";
+import PaymentPage from "./pages/PaymentPage";
 
 
 import { isAuthenticated, clearTokens } from "./api";
@@ -140,6 +141,10 @@ export default function App() {
                         path="/order"
                         element={<OrderPage />}
                     />
+
+                    <Route path="/payment/:id" 
+                        element={<PaymentPage />} />
+
                     <Route
                         path="/order-success"
                         element={<OrderSuccessPage />}

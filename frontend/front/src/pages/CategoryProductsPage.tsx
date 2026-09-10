@@ -137,11 +137,17 @@ export default function CategoryProductsPage() {
                             <h2>
                                 {product.title}
                             </h2>
-
+                            
                             <p>
                                 {product.description}
                             </p>
 
+                            {product.volume && (
+                            <p>
+                             Объём: {product.volume}
+                             </p>
+                            )}
+                            
                             <h3>
                                 {product.price} ₸
                             </h3>
